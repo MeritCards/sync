@@ -52,3 +52,5 @@ group :test do
 end
 
 gem "rack-attack", "~> 6.7"
+
+gem "dartsass-rails", "~> 0.5.1"

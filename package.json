@@ -3,11 +3,11 @@
   "private": true,
   "scripts": {
     "build": "rollup -c --bundleConfigAsCjs rollup.config.js",
-    "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules"
+    "build:css": "sass ./app/assets/stylesheets/application.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules --load-path=node_modules/jekyll-hypertext-theme/_sass"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^15.3.0",
-    "destyle.css": "^1.0.3",
+    "jekyll-hypertext-theme": "github:Eroica/jekyll-hypertext-theme",
     "rollup": "^4.27.4"
   }
 }
