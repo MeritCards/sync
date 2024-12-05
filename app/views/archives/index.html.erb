@@ -1,0 +1,57 @@
+<% content_for :title do %>Backups<% end %>
+
+<div data-vbox>
+	<% flash.each do |message_type, message| %>
+		<div class="info-bar <%= message_type %>"><%= message %></div>
+	<% end %>
+
+	<h2>Backups</h2>
+
+	<% if current_user.archives.empty? %>
+		<p>No backups.</p>
+	<% else %>
+		<table class="form-table colored-links">
+			<tr>
+				<th>Version</th>
+				<th>Date</th>
+				<th>Size</th>
+			</tr>
+			<% current_user.archives.order(version_number: :desc).each do |archive| %>
+				<tr>
+					<td><a href="<%= archive_path(archive.version_number) %>">Version <%= archive.version_number %></a></td>
+					<td><%= archive.created_at.to_formatted_s :short %></td>
+					<td><%= number_to_human_size archive.file.byte_size %></td>
+				</tr>
+			<% end %>
+		</table>
+
+		<% usage_quota = current_user.total_archive_size %>
+
+		<p>Usage quota : <%= number_to_human_size usage_quota %> / 1 GB <meter value="<%= usage_quota / 1024 / 1024 %>" max="1024" high="1000"></meter></p>
+
+		<% if usage_quota > 1024 * 1024 * 512 %>
+		<p><strong>Warning:</strong> Once you have exceeded your usage quota, Merit Cards Sync will not let you add any backups anymore! You can delete previous backups to free space.</p>
+		<% end %>
+	<% end %>
+
+	<hr>
+
+	<p>You can have one <em>active</em> backup which is usually the database that was synchronized most recently. Merit Cards checks whether its local database matches the latest <em>version</em>, and either downloads it to replace its local database, or uploads the local database to create a new backup. This newest upload becomes the <em>active</em> backup, and increases the version number.</p>
+
+	<p>Backups are sent to Merit Cards Sync compressed and encrypted with your account’s password.</p>
+
+	<p>If you need to go “back in time” to restore a previous database, you can <em>promote</em> it to become the active backup.</p>
+
+	<h2>Links</h2>
+
+	<% current_archive = current_user.current_archive %>
+
+	<ul class="actions colored-links">
+		<% if current_archive %>
+			<li><a href="<%= latest_archives_path %>">Active backup</a></li>
+		<% end %>
+		<% if basic_auth_request? or true %>
+		<li><a href="<%= new_archive_path %>">Add backup</a></li>
+		<% end %>
+	</ul>
+</div>

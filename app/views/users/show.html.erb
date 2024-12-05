@@ -1,0 +1,44 @@
+<div data-vbox>
+	<% flash.each do |message_type, message| %>
+		<div class="info-bar <%= message_type %>"><%= message %></div>
+	<% end %>
+
+	<h2>My account</h2>
+
+	<p>Your Merit Cards decks and media is backed up here. Every time you synchronize your database, a new backup version is created, up to 7 versions. After 7 versions, any newer backup replaces the oldest backup.</p>
+
+	<table class="form-table Fz(.875rem)">
+		<tr>
+			<td>User status:</td>
+			<td>Beta tester</td>
+		</tr>
+		<tr>
+			<td>User since:</td>
+			<td><% current_user.created_at.to_formatted_s :short %></td>
+		</tr>
+	</table>
+
+	<% current_archive = current_user.current_archive %>
+
+	<h2>Links</h2>
+
+	<ul class="actions colored-links">
+		<li><a href="<%= archives_path %>">All backups</a></li>
+		<% if current_archive %>
+		<li><a href="<%= latest_archives_path %>">Active backup</a></li>
+		<% end %>
+		<li><a href="<%= edit_path %>">Change password/e-mail address</a></li>
+		<li><a href="<%= delete_confirmation_path %>">Delete account</a></li>
+	</ul>
+
+	<h2>Actions</h2>
+
+	<ul>
+		<% unless basic_auth_request? %>
+		<li><%=  form_with url: logout_path, method: :delete do |form|  %>
+			<%= form.submit "Logout", class: "button" %>
+			<%  end %>
+		</li>
+		<% end %>
+	</ul>
+</div>

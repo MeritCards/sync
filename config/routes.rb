@@ -6,5 +6,29 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  root "sessions#new"
+
+  scope format: false do
+    get "login" => "sessions#new"
+    post "login" => "sessions#create"
+    delete "logout" => "sessions#destroy"
+
+    scope "my" do
+      get "" => "users#show", as: "user"
+      get "edit" => "users#edit", as: "edit"
+      put "" => "users#update"
+
+      get "delete/confirmation" => "users#delete_confirmation", as: "delete_confirmation"
+      delete "" => "users#destroy"
+
+      resources :archives, path: "archives", only: [:index, :create, :new, :show, :destroy] do
+        put "promote"
+
+        collection do
+          get "latest"
+          get "latest/download", to: "archives#download"
+        end
+      end
+    end
+  end
 end

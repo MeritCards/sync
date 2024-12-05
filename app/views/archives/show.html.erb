@@ -1,0 +1,55 @@
+<% content_for :title do %>Backups / <%= @archive.version_number %><% end %>
+<% content_for :back_path do %><%= archives_path %><% end %>
+<% content_for :back_label do %>Back to all backups<% end %>
+
+<div data-vbox>
+	<% flash.each do |message_type, message| %>
+		<div class="info-bar <%= message_type %>"><%= message %></div>
+	<% end %>
+
+	<h2>Backup: <%= @archive.version_number %></h2>
+
+	<% if @archive.version_number == current_user.current_archive.version_number %>
+		<p><strong>This is the most-recent database.</strong> Merit Cards will update to this database if it is using an older database.</p>
+	<% end %>
+
+	<table class="metadata Fz(.875rem)">
+		<tr>
+			<td>Version:</td>
+			<td data-version-number><%= @archive.version_number %></td>
+		</tr>
+		<tr>
+			<td>Date:</td>
+			<td data-created-at><%= @archive.created_at.to_formatted_s :short %></td>
+		</tr>
+		<tr>
+			<td>Size:</td>
+			<td data-size><%= number_to_human_size @archive.file.byte_size %></td>
+		</tr>
+	</table>
+
+	<h2>Links</h2>
+
+	<% current_archive = current_user.current_archive %>
+
+	<ul class="actions colored-links">
+		<li><a href="<%= archives_path %>">All backups</a></li>
+		<% unless @archive.version_number == current_archive.version_number %>
+			<li><a href="<%= archive_path current_archive.version_number %>">Current backup</a></li>
+		<% end %>
+	</ul>
+
+	<h2>Actions</h2>
+
+	<ul class="actions colored-links">
+		<% if @archive.version_number != current_archive.version_number %>
+		<li><%= form_with model: @archive, url: archive_promote_path(@archive.version_number), local: true, method: :put, multipart: true do |f| %>
+				<p>Make this the active backup: <%= f.submit "Promote", class: "button" %></p>
+		<% end %></li>
+		<% end %>
+
+		<li><%= form_with model: @archive, url: archive_path(@archive.version_number), local: true, method: :delete do |f| %>
+			<%= f.submit "Delete", class: "button" %>
+		<% end %></li>
+	</ul>
+</div>

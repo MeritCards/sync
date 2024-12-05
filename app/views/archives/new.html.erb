@@ -1,0 +1,26 @@
+<% content_for :title do %>Backups / Add backup<% end %>
+<% content_for :back_path do %><%= archives_path %><% end %>
+<% content_for :back_label do %>Back to all backups<% end %>
+
+<div data-vbox>
+	<% flash.each do |message_type, message| %>
+		<div class="info-bar <%= message_type %>"><%= message %></div>
+	<% end %>
+
+	<%= form_with model: @archive, url: archives_path, local: true, method: :post, multipart: true do |f| %>
+		<p>Maximum file size: 1 GB</p>
+		<p><%= f.file_field :file %></p>
+		<p class="Ta(e)"><%= f.submit "Upload", class: "button" %></p>
+	<% end %>
+
+	<% current_archive = current_user.current_archive %>
+
+	<h2>Links</h2>
+
+	<ul class="actions colored-links">
+		<li><a href="<%= archives_path %>">All backups</a></li>
+		<% if current_archive %>
+		<li><a href="<%= latest_archives_path %>">Active backup</a></li>
+		<% end %>
+	</ul>
+</div>

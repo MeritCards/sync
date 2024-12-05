@@ -1,0 +1,54 @@
+<% content_for :title do %>My account / Edit<% end %>
+<% content_for :back_path do %><%= user_path %><% end %>
+<% content_for :back_label do %>Back to my account<% end %>
+
+<div data-vbox>
+	<% flash.each do |message_type, message| %>
+		<div class="info-bar <%= message_type %>"><%= message %></div>
+	<% end %>
+
+	<h2>Edit account</h2>
+
+	<p>To change your e-mail address or password, enter your current password here:</p>
+
+	<%= form_with url: user_path, method: :put, html: { novalidate: true, "data-vbox" => "-medium" } do |f| %>
+		<table class="form-table">
+			<tr>
+				<td><%= f.label :current_password, "Current password:" %></td>
+				<td><%= f.password_field :current_password %></td>
+			</tr>
+		</table>
+
+		<hr>
+
+		<table class="form-table">
+			<tr>
+				<td><%= f.label :email, "E-mail address:" %></td>
+				<td><%= f.email_field :email, value: current_user.email %></td>
+			</tr>
+
+			<tr>
+				<td><%= f.label :password, "New password:" %></td>
+				<td><%= f.password_field :password %></td>
+			</tr>
+
+			<tr>
+				<td colspan="2">(Leave blank to keep current password)</td>
+			</tr>
+		</table>
+
+		<p class="Ta(e)"><%= f.submit "Update", class: "button" %></p>
+	<% end %>
+
+	<h2>Links</h2>
+
+	<ul class="actions colored-links">
+		<li><a href="<%= user_path %>">My account</a></li>
+		<li><a href="<%= delete_confirmation_path %>">Delete account</a></li>
+	</ul>
+
+	<h2>Actions</h2>
+
+	<ul>
+	</ul>
+</div>

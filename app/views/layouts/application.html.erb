@@ -1,26 +1,96 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= content_for(:title) || "Sync" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+	<head>
+		<title>Merit Cards Sync / <%= content_for(:title) || "" %></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="mobile-web-app-capable" content="yes">
+		<%= csrf_meta_tags %>
+		<%= csp_meta_tag %>
 
-    <%= yield :head %>
+		<%= yield :head %>
 
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
+		<link rel="icon" href="/icon.png" type="image/png">
+		<link rel="icon" href="/icon.svg" type="image/svg+xml">
+		<link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :app %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
-    <%= stylesheet_link_tag "application" %>
-  </head>
+		<%# Includes all stylesheet files in app/assets/stylesheets %>
+		<%= stylesheet_link_tag :app %>
+		<%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+		<%= stylesheet_link_tag "application" %>
+	</head>
 
-  <body>
-    <%= yield %>
-  </body>
+	<body class="is-loading no-js" data-vbox="-medium">
+		<% if request.path != "/my" && request.path != "/" && request.path != "/login" %>
+			<p class="colored-links back-link">
+				<a href="<%= content_for(:back_path) || root_path %>" data-flow="-center"><%= svg "feather/arrow-left.svg" %> <%= content_for(:back_label) || "Back" %></a>
+			</p>
+		<% end %>
+
+		<input id="FillWidthCheckbox" type="checkbox"><label for="FillWidthCheckbox">Let text fill entire width</label>
+
+		<header class="Pos(r)">
+			<p class="switch-row">
+				<%= svg "feather/sun.svg" %>
+
+				<label class="switch no-label" for="ThemeSwitch" title="Enable dark theme">
+					<input type="checkbox" class="switch-input" id="ThemeSwitch" onchange="toggleDarkness()">
+					<span class="hint Fz(0)">Enable dark theme</span>
+					<span class="switch-trough"></span>
+					<span class="switch-handle"></span>
+				</label>
+
+				<%= svg "feather/moon.svg" %>
+			</p>
+		</header>
+
+		<script>
+          "use strict";
+
+          if (sessionStorage.getItem("isFillWidth") === "true") {
+              document.getElementById("FillWidthCheckbox").checked = true;
+          }
+
+          document.getElementById("FillWidthCheckbox").addEventListener("change", (e) => {
+              sessionStorage.setItem("isFillWidth", e.target.checked);
+          });
+		</script>
+
+		<main data-vbox="-large">
+			<section data-vbox>
+				<img src="<%= image_path "MeritCards-Icon.png" %>" width="128" height="128" alt="Merit Cards’ application icon">
+
+				<%= yield %>
+			</section>
+		</main>
+
+		<footer class="Ta(c) Pe(n) text--pale">※</footer>
+
+		<script>
+          "use strict";
+
+          function isDarkMode() {
+              return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+          }
+
+          let $body;
+          let $switch;
+
+          if (sessionStorage.getItem("dark") === "true" || isDarkMode()) {
+              document.querySelector("body").classList.add("-dark");
+              document.querySelector("#ThemeSwitch").checked = true;
+          }
+
+          function toggleDarkness(_) {
+              $body.classList.toggle("-dark");
+              sessionStorage.setItem("dark", $switch.checked);
+          }
+
+          window.addEventListener("load", function () {
+              $body = document.querySelector("body");
+              $switch = document.querySelector("#ThemeSwitch");
+              $body.classList.remove("is-loading", "no-js");
+          });
+		</script>
+	</body>
 </html>

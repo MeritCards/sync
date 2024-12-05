@@ -1,0 +1,18 @@
+<div data-vbox>
+	<% flash.each do |message_type, message| %>
+		<div class="info-bar <%= message_type %>"><%= message %></div>
+	<% end %>
+
+	<h2>Backup not found</h2>
+
+	<p>The specified backup was not found.</p>
+
+	<h2>Links</h2>
+
+	<% current_archive = current_user.current_archive %>
+
+	<ul class="actions colored-links">
+		<li><a href="<%= archives_path %>">All backups</a></li>
+		<li><a href="<%= archive_path current_archive.version_number %>">Current backup</a></li>
+	</ul>
+</div>

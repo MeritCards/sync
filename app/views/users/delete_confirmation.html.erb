@@ -1,0 +1,23 @@
+<% content_for :title do %>My account / Delete<% end %>
+<% content_for :back_path do %><%= user_path %><% end %>
+<% content_for :back_label do %>Back to my account<% end %>
+
+<div data-vbox>
+	<% flash.each do |message_type, message| %>
+		<div class="info-bar <%= message_type %>"><%= message %></div>
+	<% end %>
+
+	<h2>Delete account</h2>
+
+	<p><strong>Warning:</strong> After deleting your account, you can no longer use Merit Cards Sync. <strong>All backups will be immediately deleted</strong>.</p>
+
+	<%= form_with url: user_path, method: :delete, html: { novalidate: true, "data-vbox" => "-medium" } do |f| %>
+		<p><em>I understand, delete my account:</em> <%= f.submit "Delete", class: "button" %></p>
+	<% end %>
+
+	<h2>Links</h2>
+
+	<ul class="actions colored-links">
+		<li><a href="<%= user_path %>">My account</a></li>
+	</ul>
+</div>
