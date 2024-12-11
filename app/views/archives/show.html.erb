@@ -16,15 +16,15 @@
 	<table class="metadata Fz(.875rem)">
 		<tr>
 			<td>Version:</td>
-			<td data-version-number><%= @archive.version_number %></td>
+			<td data-version-number="<%= @archive.version_number %>"><%= @archive.version_number %></td>
 		</tr>
 		<tr>
 			<td>Date:</td>
-			<td data-created-at><%= @archive.created_at.to_formatted_s :short %></td>
+			<td data-created-at="<%= @archive.created_at %>"><%= @archive.created_at.to_formatted_s :short %></td>
 		</tr>
 		<tr>
 			<td>Size:</td>
-			<td data-size><%= number_to_human_size @archive.file.byte_size %></td>
+			<td data-size="<%= @archive.file.byte_size %>"><%= number_to_human_size @archive.file.byte_size %></td>
 		</tr>
 	</table>
 
