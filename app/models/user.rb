@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
             uniqueness: { case_sensitive: false }
 
   has_secure_password
+  has_secure_token
   validates :password, length: { minimum: 8 }, if: -> { password.present? }
 
   def current_archive
