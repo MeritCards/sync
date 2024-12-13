@@ -1,5 +1,5 @@
 class ArchivesController < ApplicationController
-  skip_before_action :verify_authenticity_token, if: :basic_auth_request?
+  skip_before_action :verify_authenticity_token, if: :token_request?
   before_action :authenticate
 
   rescue_from ActiveRecord::RecordNotFound, with: :error_not_found

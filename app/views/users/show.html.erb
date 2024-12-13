@@ -34,7 +34,7 @@
 	<h2>Actions</h2>
 
 	<ul>
-		<% unless basic_auth_request? %>
+		<% unless token_request? %>
 		<li><%=  form_with url: logout_path, method: :delete do |form|  %>
 			<%= form.submit "Logout", class: "button" %>
 			<%  end %>

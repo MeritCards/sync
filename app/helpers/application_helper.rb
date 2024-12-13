@@ -3,9 +3,9 @@ module ApplicationHelper
     request.authorization.present? && request.authorization.start_with?("Basic ")
   end
 
-  def render_unauthorized
-    headers["WWW-Authenticate"] = 'Basic realm="Application"'
-    render html: "<p>Not authenticated</p>".html_safe, status: :unauthorized
+  def token_request?
+    auth_header = request.headers["Authorization"]
+    auth_header.present? && auth_header.start_with?("Bearer ")
   end
 
   def svg(path)

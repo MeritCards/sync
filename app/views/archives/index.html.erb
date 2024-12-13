@@ -50,7 +50,7 @@
 		<% if current_archive %>
 			<li><a href="<%= latest_archives_path %>">Active backup</a></li>
 		<% end %>
-		<% if basic_auth_request? or true %>
+		<% if token_request? %>
 		<li><a href="<%= new_archive_path %>">Add backup</a></li>
 		<% end %>
 	</ul>

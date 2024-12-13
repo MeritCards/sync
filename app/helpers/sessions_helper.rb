@@ -23,8 +23,8 @@ module SessionsHelper
   end
 
   def authenticate
-    if basic_auth_request?
-      authenticate_with_basic_auth
+    if token_request?
+      authenticate_with_token
     else
       logged_in_user
     end
@@ -34,14 +34,21 @@ module SessionsHelper
     email, password = ActionController::HttpAuthentication::Basic.user_name_and_password(request)
 
     if email && password
-      user = User.find_by(email: CGI::unescape(email))
+      user = User.find_by(email: CGI.unescape(email))
       if user&.authenticate(password)
         @current_user = user
       else
-        render_unauthorized
+        raise Errors::AuthenticationError.new
       end
     else
-      render_unauthorized
+      raise Errors::AuthenticationError.new
     end
+  end
+
+  def authenticate_with_token
+    token = request.headers["Authorization"].split(" ").last
+    @current_user = User.find_by! token: token
+  rescue ActiveRecord::RecordNotFound
+    raise Errors::AuthenticationError.new
   end
 end
