@@ -21,8 +21,12 @@ Rails.application.routes.draw do
       get "delete/confirmation" => "users#delete_confirmation", as: "delete_confirmation"
       delete "" => "users#destroy"
 
-      resources :archives, path: "archives", only: [:index, :create, :new, :show, :destroy] do
+      resources :archives, path: "archives", only: [ :index, :create, :new, :show, :destroy ] do
         put "promote"
+
+        member do
+          get "download", to: "archives#download"
+        end
 
         collection do
           get "latest"

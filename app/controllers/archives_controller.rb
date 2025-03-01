@@ -41,8 +41,15 @@ class ArchivesController < ApplicationController
   end
 
   def download
-    @archive = current_user.current_archive
+    begin
+      @archive = current_user.archives.find_by!(version_number: params[:id])
+    rescue ActiveRecord::RecordNotFound
+      @archive = current_user.current_archive
+    end
+
     send_data @archive.file.download, filename: "MeritCards.db.tgz"
+  rescue NoMethodError
+    render "404", status: :not_found
   end
 
   def promote

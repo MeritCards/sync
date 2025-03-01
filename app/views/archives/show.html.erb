@@ -42,6 +42,8 @@
 	<h2>Actions</h2>
 
 	<ul class="actions colored-links">
+		<li><a href="<%= download_archive_path @archive.version_number %>">Download</a></li>
+
 		<% if @archive.version_number != current_archive.version_number %>
 		<li><%= form_with model: @archive, url: archive_promote_path(@archive.version_number), local: true, method: :put, multipart: true do |f| %>
 				<p>Make this the active backup: <%= f.submit "Promote", class: "button" %></p>
