@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
     elsif basic_auth_request?
       authenticate_with_basic_auth
     else
-      raise Errors::AuthenticationError.new
+      redirect_to login_path
     end
   end
 

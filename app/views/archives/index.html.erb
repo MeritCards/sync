@@ -17,7 +17,7 @@
 				<th>Size</th>
 			</tr>
 			<% current_user.archives.order(version_number: :desc).each do |archive| %>
-				<tr>
+				<tr data-archive="<%= archive.version_number %>">
 					<td><a href="<%= archive_path(archive.version_number) %>">Version <%= archive.version_number %></a></td>
 					<td><%= archive.created_at.to_formatted_s :short %></td>
 					<td><%= number_to_human_size archive.file.byte_size %></td>
@@ -36,7 +36,7 @@
 
 	<hr>
 
-	<p>You can have one <em>active</em> backup which is usually the database that was synchronized most recently. Merit Cards checks whether its local database matches the latest <em>version</em>, and either downloads it to replace its local database, or uploads the local database to create a new backup. This newest upload becomes the <em>active</em> backup, and increases the version number.</p>
+	<p>You can have one <em>active backup</em> which is usually the database that was synchronized most recently. Merit Cards checks whether its local database matches the latest <em>backup</em>, and either downloads it to replace its local database, or uploads the local database to create a new backup. This newest upload becomes the <em>active</em> backup, and increases the version number.</p>
 
 	<p>Backups are sent to Merit Cards Sync compressed and encrypted with your account’s password.</p>
 

@@ -3,7 +3,7 @@ require "test_helper"
 class ApplicationControllerTest < ActionDispatch::IntegrationTest
   test "cannot get index without authentication" do
     get root_path
-    assert_response :unauthorized
+    assert_redirected_to login_path
   end
 
   test "can get index with basic auth" do
@@ -25,9 +25,5 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
         "password"
       )
     }
-  end
-
-  def login
-    post login_path, params: { email: "one@example.org", password: "password" }
   end
 end

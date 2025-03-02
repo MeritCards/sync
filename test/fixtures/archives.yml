@@ -5,5 +5,5 @@ one:
   version_number: 1
 
 two:
-  user: two
-  version_number: 1
+  user: one
+  version_number: 2

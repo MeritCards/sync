@@ -1,13 +1,8 @@
 require "test_helper"
 
 class ArchiveApiTest < ActionDispatch::IntegrationTest
-  test "can authenticate with HTTP basic auth" do
-    get user_path, headers: headers
-
-    assert_select "h2", "My account"
-  end
-
   test "can upload a database" do
+    user = User.find_by! email: "one@example.org"
     database = fixture_file_upload("MeritCards-Icon.png")
     post archives_path,
          params: { archive: { file: database } },
@@ -17,7 +12,7 @@ class ArchiveApiTest < ActionDispatch::IntegrationTest
     follow_redirect! headers: headers
     assert_response :success
     assert_select "h2", "Backups"
-    assert User.first.archives.count == 1
+    assert user.archives.count == 3
   end
 
   test "can delete a backup" do
@@ -33,11 +28,6 @@ class ArchiveApiTest < ActionDispatch::IntegrationTest
   private
 
   def headers
-    {
-      HTTP_AUTHORIZATION: ActionController::HttpAuthentication::Basic.encode_credentials(
-        "one%40example.org",
-        "password"
-      )
-    }
+    { HTTP_AUTHORIZATION: "Bearer CbUJiEeNKsLyauap6XaZhcA1" }
   end
 end

@@ -16,6 +16,11 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "login with basic auth returns token" do
+    post login_path, headers: headers
+    assert_equal "CbUJiEeNKsLyauap6XaZhcA1", @response.body
+  end
+
   private
 
   def headers
@@ -25,9 +30,5 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
         "password"
       )
     }
-  end
-
-  def login
-    post login_path, params: { email: "one@example.org", password: "password" }
   end
 end
