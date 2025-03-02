@@ -13,6 +13,8 @@
 
 	<ul class="actions colored-links">
 		<li><a href="<%= archives_path %>">All backups</a></li>
-		<li><a href="<%= archive_path current_archive.version_number %>">Current backup</a></li>
+		<% if current_archive %>
+			<li><a href="<%= latest_archives_path %>">Active backup</a></li>
+		<% end %>
 	</ul>
 </div>
