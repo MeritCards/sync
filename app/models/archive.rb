@@ -3,6 +3,7 @@ class Archive < ApplicationRecord
   has_one_attached :file
 
   validates :version_number, presence: true, numericality: { greater_than_or_equal_to: 1 }
+  validates_uniqueness_of :version_number, scope: :user_id
 
   def promote!
     if version_number == user.current_archive.version_number
