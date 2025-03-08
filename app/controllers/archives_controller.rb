@@ -37,6 +37,7 @@ class ArchivesController < ApplicationController
 
   def latest
     @archive = current_user.current_archive
+    raise ActiveRecord::RecordNotFound unless @archive
     render "show"
   end
 
