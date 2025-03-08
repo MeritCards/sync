@@ -26,14 +26,17 @@ class User < ActiveRecord::Base
   def add_file(new_file)
     raise NoSpaceError.new "No space left" unless has_space?
 
-    if archives.count >= 7
-      archives.order(version_number: :asc).first.destroy
-    end
+    Archive.transaction do
+      if archives.count >= 7
+        archives.order(version_number: :asc).first.destroy
+      end
 
-    latest_version = archives.maximum(:version_number) || 0
-    archive = archives.create!(version_number: latest_version + 1)
-    archive.file.attach(new_file)
-    archive
+      latest_version = archives.maximum(:version_number) || 0
+      archive = archives.new(version_number: latest_version + 1)
+      archive.file.attach(new_file)
+      archive.save!
+      archive
+    end
   end
 
   private
