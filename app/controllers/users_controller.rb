@@ -30,6 +30,12 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    if params[:confirmation] != "1"
+      flash.now[:danger] = "Click on the checkbox to confirm deleting your account."
+      render "delete_confirmation"
+      return
+    end
+
     current_user.destroy!
     log_out
     redirect_to login_path, notice: "Account successfully deleted."

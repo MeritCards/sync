@@ -11,8 +11,9 @@
 
 	<p><strong>Warning:</strong> After deleting your account, you can no longer use Merit Cards Sync. <strong>All backups will be immediately deleted</strong>.</p>
 
-	<%= form_with url: user_path, method: :delete, html: { novalidate: true, "data-vbox" => "-medium" } do |f| %>
-		<p><em>I understand, delete my account:</em> <%= f.submit "Delete", class: "button" %></p>
+	<%= form_with url: user_path, method: :delete, html: { novalidate: true, "data-vbox" => "" } do |f| %>
+		<label><input type="checkbox" name="confirmation" value="1"> <em>I understand, delete my account</em></label>
+		<p class="Ta(e)"><%= f.submit "Delete", class: "button" %></p>
 	<% end %>
 
 	<h2>Links</h2>

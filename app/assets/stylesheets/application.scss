@@ -5,6 +5,10 @@
   text-align: end;
 }
 
+label input[type="checkbox"] {
+	vertical-align: baseline;
+}
+
 input[type="text"],
 input[type="email"],
 input[type="password"] {
