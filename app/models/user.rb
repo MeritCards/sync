@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
     raise NoSpaceError.new "No space left" unless has_space?
 
     Archive.transaction do
-      if archives.count >= 7
+      if archives.count >= Rails.configuration.max_archive_count
         archives.order(version_number: :asc).first.destroy
       end
 
@@ -42,6 +42,6 @@ class User < ActiveRecord::Base
   private
 
   def has_space?
-    total_archive_size < 1024 * 1024 * 1024
+    total_archive_size < Rails.configuration.maximum_storage
   end
 end

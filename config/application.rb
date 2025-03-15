@@ -37,5 +37,8 @@ module Sync
     # config.eager_load_paths << Rails.root.join("extras")
 
     config.active_storage.draw_routes = false
+
+    config.maximum_storage = 1024 * 1024 * 1024
+    config.max_archive_count = 7
   end
 end
