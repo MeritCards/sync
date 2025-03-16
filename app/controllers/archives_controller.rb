@@ -48,7 +48,7 @@ class ArchivesController < ApplicationController
       @archive = current_user.current_archive
     end
 
-    send_data @archive.file.download, filename: "MeritCards.db.tgz"
+    send_data @archive.file.download, filename: "MeritCards.#{@archive.version_number}.bin"
   rescue NoMethodError
     render "404", status: :not_found
   end
