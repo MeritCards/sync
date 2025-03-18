@@ -18,9 +18,9 @@
 			</tr>
 			<% current_user.archives.order(version_number: :desc).each do |archive| %>
 				<tr data-archive="<%= archive.version_number %>">
-					<td><a href="<%= archive_path(archive.version_number) %>">Version <%= archive.version_number %></a></td>
-					<td><%= archive.created_at.to_formatted_s :short %></td>
-					<td><%= number_to_human_size archive.file.byte_size %></td>
+					<td data-version-number="<%= archive.version_number %>"><a href="<%= archive_path(archive.version_number) %>">Version <%= archive.version_number %></a></td>
+					<td data-created-at="<%= archive.created_at %>"><%= archive.created_at.to_formatted_s :short %></td>
+					<td data-byte-size="<%= archive.file.byte_size %>"><%= number_to_human_size archive.file.byte_size %></td>
 				</tr>
 			<% end %>
 		</table>
