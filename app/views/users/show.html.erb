@@ -22,7 +22,7 @@
 
 	<h2>Links</h2>
 
-	<ul class="actions colored-links">
+	<ul class="links colored-links">
 		<li><a href="<%= archives_path %>">All backups</a></li>
 		<% if current_archive %>
 		<li><a href="<%= latest_archives_path %>">Active backup</a></li>
@@ -33,7 +33,7 @@
 
 	<h2>Actions</h2>
 
-	<ul>
+	<ul class="actions">
 		<% unless token_request? %>
 		<li><%=  form_with url: logout_path, method: :delete do |form|  %>
 			<%= form.submit "Logout", class: "button" %>
