@@ -14,6 +14,8 @@ Merit Cards Sync is a basic Rails application. It primarily uses ActiveStorage t
 * `app/models/archive.rb`
 * `app/models/user.rb`
 
+I first used the term _archive_ because I wanted something independent of backup files, but in the end, _backup_ is probably clearer.
+
 By default, a user can have up to 7 backups. The maximum file size should be configured in the reverse proxy (if applicable). The maximum storage for users is set to 1 GB, after which the server responds with `413`.
 
 * `config/application.rb`
@@ -35,7 +37,7 @@ Merit Cards for Windows and Android themselves take care of sending encrypted fi
 
 The server stores your user password hashed, so it already has no knowledge of your real password. In the client applications, you need to log into your account once to construct this individual key (which is stored locally).
 
-A backup can only be decrypted with this unique key.
+A backup can only be decrypted with this unique key. **Be extra sure about the consequences when resetting a user's token or password.** If you reset any of those, Merit Cards creates a new encryption key which **CANNOT DECRYPT** previous backups.
 
 ## Installation/setup
 
