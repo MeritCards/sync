@@ -39,6 +39,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def update_last_login
+    update last_login: Time.current
+  end
+
   private
 
   def has_space?

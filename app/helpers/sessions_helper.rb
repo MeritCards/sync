@@ -37,6 +37,7 @@ module SessionsHelper
       user = User.find_by(email: CGI.unescape(email))
       if user&.authenticate(password)
         @current_user = user
+        @current_user.update_last_login
       else
         raise Errors::AuthenticationError.new
       end
@@ -48,6 +49,7 @@ module SessionsHelper
   def authenticate_with_token
     token = request.headers["Authorization"].split(" ").last
     @current_user = User.find_by! token: token
+    @current_user.update_last_login
   rescue ActiveRecord::RecordNotFound
     raise Errors::AuthenticationError.new
   end
