@@ -16,12 +16,12 @@ Merit Cards Sync is a basic Rails application. It primarily uses ActiveStorage t
 
 I first used the term _archive_ because I wanted something independent of backup files, but in the end, _backup_ is probably clearer.
 
-By default, a user can have up to 7 backups. The maximum file size should be configured in the reverse proxy (if applicable). The maximum storage for users is set to 1 GB, after which the server responds with `413`.
+By default, a user can have up to 7 backups. The maximum file size should be configured in the reverse proxy (if applicable). The maximum storage for users is set to 1 GB, after which the server responds with `413`. See:
 
 * `config/application.rb`
 * `app/controllers/archives_controller.rb`
 
-User and other data is stored in a local SQLite database.
+User and other data is stored in a local SQLite database:
 
 * `config/database.yml`
 
@@ -58,7 +58,7 @@ This creates a unique token which must be used to authenticate this user in a RE
 
 ## Endpoints
 
-Merit Cards Sync is a _REST_ API. To learn what features are available, you should use a REST client and parse its hypermedia responses. For example, if you query the index page, you get a list of links:
+Merit Cards Sync is a _REST_ API. To learn what features are available, you should use a REST client and look at its hypermedia responses. For example, if you query the index page, you get a list of links:
 
 ```html
 <ul class="links">
